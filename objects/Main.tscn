@@ -9,4 +9,4 @@
 position = Vector2( 230, 293 )
 
 [node name="Circle" parent="." instance=ExtResource( 2 )]
-position = Vector2( 718, 295 )
+position = Vector2( 516, 295 )

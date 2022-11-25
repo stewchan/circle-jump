@@ -6,12 +6,10 @@ var radius := 70
 var rotation_speed := PI
 
 
-func _ready() -> void:
-	init()
-
-
-func init(_radius := radius) -> void:
+func init(_position, _radius := radius) -> void:
+	position = _position
 	radius = _radius
+	rotation_speed *= pow(-1, randi() % 2)
 	$CollisionShape2D.shape = $CollisionShape2D.shape.duplicate()
 	$CollisionShape2D.shape.radius = radius
 	var img_size = $Sprite.texture.get_size().x / 2
@@ -21,3 +19,14 @@ func init(_radius := radius) -> void:
 
 func _process(delta: float) -> void:
 	$Pivot.rotation += rotation_speed * delta
+
+
+func capture():
+	$AnimationPlayer.play("capture")
+
+
+func implode():
+	if !$AnimationPlayer.is_playing():
+		$AnimationPlayer.play("implode")
+	yield($AnimationPlayer, "animation_finished")
+	queue_free()

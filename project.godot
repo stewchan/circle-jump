@@ -14,6 +14,11 @@ config/name="Circle-jump"
 run/main_scene="res://objects/Main.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=430
+window/size/height=800
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true

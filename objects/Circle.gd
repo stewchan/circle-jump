@@ -16,16 +16,22 @@ var jumper
 
 func set_mode(_mode):
 	mode = _mode
+	var color
 	match mode:
 		MODES.STATIC:
 			$Label.hide()
+			color = Settings.theme["circle_static"]
 		MODES.LIMITED:
 			current_orbit = MAX_ORBITS
 			$Label.text = str(current_orbit)
 			$Label.show()
+			color = Settings.theme["circle_limited"]
+	$Sprite.material.set_shader_param("color", color)
 
 
 func init(_position, _radius := radius, _mode = MODES.LIMITED) -> void:
+	$Sprite.material = $Sprite.material.duplicate()
+	$SpriteEffect.material = $Sprite.material
 	set_mode(_mode)
 	add_to_group("circles")
 	position = _position
@@ -86,6 +92,12 @@ func draw_circle_arc_poly(center, radius, angle_from, angle_to, color):
 
 func _draw():
 	if jumper:
+		var color = Settings.theme["circle_fill"]
 		var r = ((radius - 50) / MAX_ORBITS) * (1 + MAX_ORBITS - current_orbit)
-		draw_circle_arc_poly(Vector2.ZERO, r, orbit_start + PI/2,
-							$Pivot.rotation + PI/2, Color(1, 0, 0))
+		draw_circle_arc_poly(
+			Vector2.ZERO,
+			r,
+			orbit_start + PI/2,
+			$Pivot.rotation + PI/2,
+			color
+		)

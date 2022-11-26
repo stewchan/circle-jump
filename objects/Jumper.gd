@@ -14,6 +14,8 @@ var target : Area2D = null
 
 
 func _ready() -> void:
+	$Sprite.material.set_shader_param("color", Settings.theme["player_body"])
+#	$Trail/Points.default_color = Settings.theme["player_trail"]
 	trail.position = position
 
 

@@ -14,6 +14,10 @@ config/name="Circle-jump"
 run/main_scene="res://objects/Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Settings="*res://Settings.gd"
+
 [display]
 
 window/size/width=430

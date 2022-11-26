@@ -6,6 +6,7 @@ var Jumper = preload("res://objects/Jumper.tscn")
 var player
 var score
 
+
 func _ready() -> void:
 	randomize()
 	$HUD.hide()
@@ -23,6 +24,8 @@ func new_game():
 	$HUD.update_score(score)
 	$HUD.show()
 	$HUD.show_message("Go!")
+	if Settings.enable_music:
+		$Music.play()
 
 
 func _on_Jumper_captured(object):
@@ -37,6 +40,8 @@ func _on_Jumper_died():
 	get_tree().call_group("circles", "implode")
 	$Screens.game_over()
 	$HUD.hide()
+	if Settings.enable_music:
+		$Music.stop()
 
 
 func spawn_circle(_position = null) -> void:

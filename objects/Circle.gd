@@ -48,6 +48,8 @@ func _process(delta: float) -> void:
 func check_orbits():
 	if abs($Pivot.rotation - orbit_start) > 2 * PI:
 		current_orbit -= 1
+		if Settings.enable_sound:
+			$Beep.play()
 		$Label.text = str(current_orbit)
 		if current_orbit <= 0:
 			jumper.die()

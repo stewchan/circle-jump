@@ -27,6 +27,7 @@ func set_mode(_mode):
 
 func init(_position, _radius := radius, _mode = MODES.LIMITED) -> void:
 	set_mode(_mode)
+	add_to_group("circles")
 	position = _position
 	radius = _radius
 	rotation_speed *= pow(-1, randi() % 2)

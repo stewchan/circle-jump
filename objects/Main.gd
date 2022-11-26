@@ -16,8 +16,20 @@ func new_game():
 	player.position = $StartPosition.position
 	add_child(player)
 	player.connect("captured", self, "_on_Jumper_captured")
+	player.connect("died", self, "_on_Jumper_died")
 	spawn_circle($StartPosition.position)
-	
+
+
+func _on_Jumper_captured(object):
+	$Camera2D.position = object.position
+	object.capture(player)
+	call_deferred("spawn_circle")
+
+
+func _on_Jumper_died():
+	get_tree().call_group("circles", "implode")
+	$Screens.game_over()
+
 
 func spawn_circle(_position = null) -> void:
 	var c = Circle.instance()
@@ -29,8 +41,5 @@ func spawn_circle(_position = null) -> void:
 	c.init(_position)
 
 
-func _on_Jumper_captured(object):
-	$Camera2D.position = object.position
-	object.capture(player)
-	call_deferred("spawn_circle")
+
 		

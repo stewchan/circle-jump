@@ -4,10 +4,11 @@ var Circle = preload("res://objects/Circle.tscn")
 var Jumper = preload("res://objects/Jumper.tscn")
 
 var player
-
+var score
 
 func _ready() -> void:
 	randomize()
+	$HUD.hide()
 	
 
 func new_game():
@@ -18,9 +19,15 @@ func new_game():
 	player.connect("captured", self, "_on_Jumper_captured")
 	player.connect("died", self, "_on_Jumper_died")
 	spawn_circle($StartPosition.position)
+	score = 0
+	$HUD.update_score(score)
+	$HUD.show()
+	$HUD.show_message("Go!")
 
 
 func _on_Jumper_captured(object):
+	score += 1
+	$HUD.update_score(score)
 	$Camera2D.position = object.position
 	object.capture(player)
 	call_deferred("spawn_circle")
@@ -29,6 +36,7 @@ func _on_Jumper_captured(object):
 func _on_Jumper_died():
 	get_tree().call_group("circles", "implode")
 	$Screens.game_over()
+	$HUD.hide()
 
 
 func spawn_circle(_position = null) -> void:

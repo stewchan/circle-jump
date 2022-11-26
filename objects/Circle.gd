@@ -1,7 +1,6 @@
 extends Area2D
 
-
-enum MODES {STATIC, LIMITED}
+enum MODES { STATIC, LIMITED }
 
 onready var orbit_position = $Pivot/OrbitPosition
 onready var move_tween = $MoveTween
@@ -13,9 +12,9 @@ var radius := 70
 var rotation_speed := PI
 var mode = MODES.STATIC
 
-const MAX_ORBITS := 3 			# Maximum orbits until circle disappears
-var current_orbit := 0		# Current orbit of Jumper
-var orbit_start			 	# Where in the rotation the orbits started
+const MAX_ORBITS := 3  # Maximum orbits until circle disappears
+var current_orbit := 0  # Current orbit of Jumper
+var orbit_start  # Where in the rotation the orbits started
 var jumper
 
 
@@ -38,11 +37,17 @@ func set_tween():
 	if move_range == 0:
 		return
 	move_range *= -1
-	move_tween.interpolate_property(self, "position:x",
-		position.x, position.x + move_range, move_speed,
-		Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
+	move_tween.interpolate_property(
+		self,
+		"position:x",
+		position.x,
+		position.x + move_range,
+		move_speed,
+		Tween.TRANS_QUAD,
+		Tween.EASE_IN_OUT
+	)
 	move_tween.start()
-	
+
 
 func init(_position, _radius := radius, _mode = MODES.LIMITED) -> void:
 	$Sprite.material = $Sprite.material.duplicate()
@@ -58,7 +63,7 @@ func init(_position, _radius := radius, _mode = MODES.LIMITED) -> void:
 	$Sprite.scale = Vector2(1, 1) * radius / img_size
 	orbit_position.position.x = radius + 25
 	set_tween()
-	
+
 
 func _process(delta: float) -> void:
 	$Pivot.rotation += rotation_speed * delta
@@ -85,13 +90,11 @@ func capture(target):
 	$AnimationPlayer.play("capture")
 	$Pivot.rotation = (jumper.position - position).angle()
 	orbit_start = $Pivot.rotation
-	
+
 
 func implode():
 	if !$AnimationPlayer.is_playing():
 		$AnimationPlayer.play("implode")
-	yield($AnimationPlayer, "animation_finished")
-	queue_free()
 
 
 func draw_circle_arc_poly(center, radius, angle_from, angle_to, color):
@@ -99,9 +102,9 @@ func draw_circle_arc_poly(center, radius, angle_from, angle_to, color):
 	var points_arc = PoolVector2Array()
 	points_arc.push_back(center)
 	var colors = PoolColorArray([color])
-	
+
 	for i in range(nb_points + 1):
-		var angle_point = angle_from + i * (angle_to - angle_from) / nb_points - PI/2
+		var angle_point = angle_from + i * (angle_to - angle_from) / nb_points - PI / 2
 		points_arc.push_back(center + Vector2(cos(angle_point), sin(angle_point)) * radius)
 	draw_polygon(points_arc, colors)
 
@@ -110,10 +113,4 @@ func _draw():
 	if jumper:
 		var color = Settings.theme["circle_fill"]
 		var r = ((radius - 50) / MAX_ORBITS) * (1 + MAX_ORBITS - current_orbit)
-		draw_circle_arc_poly(
-			Vector2.ZERO,
-			r,
-			orbit_start + PI/2,
-			$Pivot.rotation + PI/2,
-			color
-		)
+		draw_circle_arc_poly(Vector2.ZERO, r, orbit_start + PI / 2, $Pivot.rotation + PI / 2, color)

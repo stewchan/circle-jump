@@ -8,8 +8,7 @@ var player
 
 func _ready() -> void:
 	randomize()
-	new_game()
-
+	
 
 func new_game():
 	$Camera2D.position = $StartPosition.position

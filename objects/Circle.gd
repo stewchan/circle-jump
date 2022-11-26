@@ -4,6 +4,11 @@ extends Area2D
 enum MODES {STATIC, LIMITED}
 
 onready var orbit_position = $Pivot/OrbitPosition
+onready var move_tween = $MoveTween
+
+var move_range = 100
+var move_speed = 1.0
+
 var radius := 70
 var rotation_speed := PI
 var mode = MODES.STATIC
@@ -29,6 +34,16 @@ func set_mode(_mode):
 	$Sprite.material.set_shader_param("color", color)
 
 
+func set_tween():
+	if move_range == 0:
+		return
+	move_range *= -1
+	move_tween.interpolate_property(self, "position:x",
+		position.x, position.x + move_range, move_speed,
+		Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
+	move_tween.start()
+	
+
 func init(_position, _radius := radius, _mode = MODES.LIMITED) -> void:
 	$Sprite.material = $Sprite.material.duplicate()
 	$SpriteEffect.material = $Sprite.material
@@ -42,7 +57,8 @@ func init(_position, _radius := radius, _mode = MODES.LIMITED) -> void:
 	var img_size = $Sprite.texture.get_size().x / 2
 	$Sprite.scale = Vector2(1, 1) * radius / img_size
 	orbit_position.position.x = radius + 25
-
+	set_tween()
+	
 
 func _process(delta: float) -> void:
 	$Pivot.rotation += rotation_speed * delta

@@ -190,3 +190,5 @@ valign = 1
 stream = ExtResource( 5 )
 
 [node name="MoveTween" type="Tween" parent="."]
+
+[connection signal="tween_all_completed" from="MoveTween" to="." method="set_tween"]

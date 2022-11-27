@@ -33,6 +33,9 @@ func new_game():
 
 func set_score(value):
 	score = value
+	if score > Settings.highscore:
+		Settings.highscore = score
+		Settings.save_settings()
 	$HUD.update_score(score)
 	if score > 0 and score % Settings.circles_per_level == 0:
 		level += 1

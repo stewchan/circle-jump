@@ -4,10 +4,6 @@ extends CanvasLayer
 onready var tween = $Tween
 
 
-func _ready() -> void:
-	pass
-
-
 func appear() -> void:
 	get_tree().call_group("buttons", "set_disabled", false)
 	tween.interpolate_property(self, "offset:x", 500, 0, 0.5, Tween.TRANS_BACK, Tween.EASE_IN_OUT)

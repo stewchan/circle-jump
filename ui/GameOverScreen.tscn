@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ui/BaseScreen.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/images/buttons/home.png" type="Texture" id=2]
 [ext_resource path="res://assets/images/buttons/return.png" type="Texture" id=3]
+[ext_resource path="res://assets/fonts/Xolonium-Regular.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 64
+font_data = ExtResource( 4 )
 
 [node name="GameOverScreen" instance=ExtResource( 1 )]
 
@@ -26,4 +31,18 @@ texture_normal = ExtResource( 3 )
 
 [node name="Buttons2" parent="MarginContainer/VBoxContainer" index="2"]
 margin_top = 439.0
-margin_bottom = 439.0
+margin_bottom = 517.0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Buttons2" index="0"]
+margin_left = 68.0
+margin_right = 242.0
+margin_bottom = 78.0
+custom_fonts/font = SubResource( 1 )
+text = "Best:"
+
+[node name="Highscore" type="Label" parent="MarginContainer/VBoxContainer/Buttons2" index="1"]
+margin_left = 317.0
+margin_right = 362.0
+margin_bottom = 78.0
+custom_fonts/font = SubResource( 1 )
+text = "0"

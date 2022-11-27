@@ -31,9 +31,10 @@ texture_normal = ExtResource( 3 )
 
 [node name="Buttons2" parent="MarginContainer/VBoxContainer" index="2"]
 margin_top = 439.0
-margin_bottom = 484.0
+margin_bottom = 439.0
 
 [node name="About" type="Button" parent="MarginContainer/VBoxContainer/Buttons2" index="0" groups=["buttons"]]
+visible = false
 margin_left = 158.0
 margin_right = 272.0
 margin_bottom = 45.0

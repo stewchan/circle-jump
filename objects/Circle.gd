@@ -60,7 +60,7 @@ func init(_position, _mode = "static", _radius := radius,
 func set_tween():
 	if move_range == 0:
 		return
-	yield(get_tree().create_timer(0.3),"timeout")
+	yield(get_tree().create_timer(0.1),"timeout")
 	move_range *= -1
 	move_tween.interpolate_property(self, "position:x",
 		position.x, position.x + move_range, move_speed,

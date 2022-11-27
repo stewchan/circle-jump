@@ -20,9 +20,10 @@ func new_game():
 	add_child(player)
 	player.connect("captured", self, "_on_Jumper_captured")
 	player.connect("died", self, "_on_Jumper_died")
-	spawn_circle($StartPosition.position)
 	self.score = 0
 	level = 0
+	Settings.intensify(level)
+	spawn_circle($StartPosition.position)
 	$HUD.update_score(score)
 	$HUD.show()
 	$HUD.show_message("Go!")
@@ -35,6 +36,7 @@ func set_score(value):
 	$HUD.update_score(score)
 	if score > 0 and score % Settings.circles_per_level == 0:
 		level += 1
+		Settings.intensify(level)
 		$HUD.show_message("Level %s" % str(level))
 
 
@@ -62,11 +64,11 @@ func spawn_circle(_position = null) -> void:
 	add_child(c)
 	
 	# Spawn circle based on current level
-	var mode = Settings.level_settings[level]["mode"]
-	var radius = Settings.level_settings[level]["radius"]
-	var move_range = Settings.level_settings[level]["move_range"]
-	var move_speed = Settings.level_settings[level]["move_speed"]
-	var rotation_speed = Settings.level_settings[level]["rotation_speed"]
+	var mode = Settings.level_settings["mode"]
+	var radius = Settings.level_settings["radius"]
+	var move_range = Settings.level_settings["move_range"]
+	var move_speed = Settings.level_settings["move_speed"]
+	var rotation_speed = Settings.level_settings["rotation_speed"]
 	c.init(_position, mode, radius, rotation_speed, move_range, move_speed)
 
 

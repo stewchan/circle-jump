@@ -4,7 +4,7 @@ var settings_file = "user://settings.save"
 var enable_sound = true
 var enable_music = true
 var enable_ads = false
-var circles_per_level = 5
+var circles_per_level = 2
 
 
 var color_schemes = {
@@ -37,10 +37,6 @@ var theme = color_schemes["NEON1"]
 
 
 
-	
-
-
-
 func _ready() -> void:
 	load_settings()
 
@@ -68,24 +64,40 @@ func load_settings():
 #	save_settings()
 
 
-# Stages
-var level_settings = [
-	{
-		"mode": "static",
-		"radius": 120,
-		"rotation_speed" : PI * 0.7,
-		"move_range": 0,
-		"move_speed": 1.0,
-		"jump_speed": 1000,
-	},
-	{
-		"mode": "limited",
-		"radius": 120,
-		"rotation_speed" : PI * 0.7,
-		"move_range": 0,
-		"move_speed": 1.0,
-		"jump_speed": 1000,
-	},
+# Starting game play settings
+const LEVEL_START = {
+	"mode": "static",
+	"radius": 120,
+	"rotation_speed" : PI * 0.7,
+	"move_range": 0,
+	"move_speed": 1.0,
+	"jump_speed": 1000,
+}
 
-	
+var level_settings = LEVEL_START
+
+func intensify(level):
+	var settings = level_settings.duplicate()
+	var dict = _level_changes[level]
+	for key in dict:
+		settings[key] = dict[key]
+	level_settings = settings
+
+
+var _level_changes = [
+	LEVEL_START,
+	{"mode": "limited"},
+	{"rotation_speed": PI * 0.8},
+	{"radius": 100},
+	{"move_range": 100},
+	{"move_speed": 0.8},
+	{"rotation_speed": PI * 0.9},
+	{"radius": 90},
+	{"move_range": 120},
+	{"move_speed": 0.7},
+	{"rotation_speed": PI * 1.0},
+	{"radius": 80},
+	{"move_range": 130},
+	{"move_speed": 0.6},
 ]
+

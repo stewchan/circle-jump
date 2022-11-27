@@ -34,6 +34,7 @@ func set_mode(_mode):
 			color = Settings.theme["circle_limited"]
 	$Sprite.material.set_shader_param("color", color)
 
+
 func init(_position, _mode = "static", _radius := radius,
 		_rotation_speed := PI, _move_range := 100, _move_speed := 0.5) -> void:
 	set_mode(_mode)

@@ -16,7 +16,17 @@ script = ExtResource( 4 )
 
 [node name="GameOverScreen" parent="." instance=ExtResource( 3 )]
 
+[node name="Buttons" parent="GameOverScreen/MarginContainer/VBoxContainer" index="1"]
+margin_top = 189.0
+margin_bottom = 289.0
+
+[node name="Buttons2" parent="GameOverScreen/MarginContainer/VBoxContainer" index="2"]
+margin_top = 439.0
+margin_bottom = 478.0
+
 [node name="AboutScreen" parent="." instance=ExtResource( 6 )]
 
 [node name="Click" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+
+[editable path="GameOverScreen"]

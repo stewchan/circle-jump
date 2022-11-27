@@ -16,5 +16,9 @@ func disappear() -> void:
 	tween.start()
 
 
+func set_highscore(score):
+	$Highscore.text = score
+
+
 func _on_TextEdit_meta_clicked(meta) -> void:
 	OS.shell_open(meta)

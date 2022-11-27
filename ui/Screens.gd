@@ -72,4 +72,5 @@ func change_screen(new_screen):
 
 
 func game_over():
+	$GameOverScreen/MarginContainer/VBoxContainer/Buttons2/Highscore.text = str(Settings.highscore)
 	change_screen($GameOverScreen)

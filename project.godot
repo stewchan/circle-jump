@@ -20,8 +20,11 @@ Settings="*res://Settings.gd"
 
 [display]
 
-window/size/width=430
-window/size/height=800
+window/size/width=440
+window/size/height=780
+window/handheld/orientation="portrait"
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
 
 [gui]
 

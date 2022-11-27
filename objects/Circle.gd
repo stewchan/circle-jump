@@ -1,17 +1,18 @@
 extends Area2D
 
 
-enum MODES {STATIC, LIMITED}
+# enum MODES {STATIC, LIMITED}
+# modes: "static" or "limited"
+var mode = "static"
 
 onready var orbit_position = $Pivot/OrbitPosition
 onready var move_tween = $MoveTween
 
+
+var radius := 120
+var rotation_speed := PI * 0.7
 var move_range = 100
 var move_speed = 1.0
-
-var radius := 70
-var rotation_speed := PI
-var mode = MODES.STATIC
 
 const MAX_ORBITS := 3 			# Maximum orbits until circle disappears
 var current_orbit := 0		# Current orbit of Jumper
@@ -23,20 +24,42 @@ func set_mode(_mode):
 	mode = _mode
 	var color
 	match mode:
-		MODES.STATIC:
+		"static":
 			$Label.hide()
 			color = Settings.theme["circle_static"]
-		MODES.LIMITED:
+		"limited":
 			current_orbit = MAX_ORBITS
 			$Label.text = str(current_orbit)
 			$Label.show()
 			color = Settings.theme["circle_limited"]
 	$Sprite.material.set_shader_param("color", color)
 
+func init(_position, _mode = "static", _radius := radius,
+		_rotation_speed := PI, _move_range := 100, _move_speed := 0.5) -> void:
+	set_mode(_mode)
+	add_to_group("circles")
+	position = _position
+	radius = _radius
+	rotation_speed = _rotation_speed * pow(-1, randi() % 2)
+	move_range = _move_range
+	move_speed = _move_speed
+	
+	$Sprite.material = $Sprite.material.duplicate()
+	$SpriteEffect.material = $Sprite.material
+	
+	
+	$CollisionShape2D.shape = $CollisionShape2D.shape.duplicate()
+	$CollisionShape2D.shape.radius = radius
+	var img_size = $Sprite.texture.get_size().x / 2
+	$Sprite.scale = Vector2(1, 1) * radius / img_size
+	orbit_position.position.x = radius + 25
+	set_tween()
+
 
 func set_tween():
 	if move_range == 0:
 		return
+	yield(get_tree().create_timer(0.3),"timeout")
 	move_range *= -1
 	move_tween.interpolate_property(self, "position:x",
 		position.x, position.x + move_range, move_speed,
@@ -44,25 +67,9 @@ func set_tween():
 	move_tween.start()
 	
 
-func init(_position, _radius := radius, _mode = MODES.LIMITED) -> void:
-	$Sprite.material = $Sprite.material.duplicate()
-	$SpriteEffect.material = $Sprite.material
-	set_mode(_mode)
-	add_to_group("circles")
-	position = _position
-	radius = _radius
-	rotation_speed *= pow(-1, randi() % 2)
-	$CollisionShape2D.shape = $CollisionShape2D.shape.duplicate()
-	$CollisionShape2D.shape.radius = radius
-	var img_size = $Sprite.texture.get_size().x / 2
-	$Sprite.scale = Vector2(1, 1) * radius / img_size
-	orbit_position.position.x = radius + 25
-	set_tween()
-	
-
 func _process(delta: float) -> void:
 	$Pivot.rotation += rotation_speed * delta
-	if mode == MODES.LIMITED and jumper:
+	if mode == "limited" and jumper:
 		check_orbits()
 		update()
 

@@ -22,7 +22,7 @@ func new_game():
 	player.connect("died", self, "_on_Jumper_died")
 	spawn_circle($StartPosition.position)
 	self.score = 0
-	level = 1
+	level = 0
 	$HUD.update_score(score)
 	$HUD.show()
 	$HUD.show_message("Go!")
@@ -60,7 +60,14 @@ func spawn_circle(_position = null) -> void:
 		var y = rand_range(-500, -400)
 		_position = player.target.position + Vector2(x, y)
 	add_child(c)
-	c.init(_position)
+	
+	# Spawn circle based on current level
+	var mode = Settings.level_settings[level]["mode"]
+	var radius = Settings.level_settings[level]["radius"]
+	var move_range = Settings.level_settings[level]["move_range"]
+	var move_speed = Settings.level_settings[level]["move_speed"]
+	var rotation_speed = Settings.level_settings[level]["rotation_speed"]
+	c.init(_position, mode, radius, rotation_speed, move_range, move_speed)
 
 
 

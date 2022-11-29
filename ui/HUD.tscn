@@ -84,7 +84,6 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=6]
 resource_name = "show_message"
-length = 0.75
 tracks/0/type = "value"
 tracks/0/path = NodePath("Message:visible")
 tracks/0/interp = 1
@@ -104,10 +103,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.7 ),
+"times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 64, 200 ]
+"values": [ 32, 200 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Message:modulate")
@@ -116,7 +115,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.7 ),
+"times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]

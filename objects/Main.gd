@@ -36,11 +36,12 @@ func new_game():
 
 func set_score(value):
 	score = value
-	if score > Settings.highscore and !new_highscore:
-		new_highscore = true
+	if score > Settings.highscore:
+		if !new_highscore:
+			new_highscore = true
+			$HUD.show_message("New Record!")
 		Settings.highscore = score
 		Settings.save_settings()
-		$HUD.show_message("New Highscore!")
 	$HUD.update_score(score)
 	if score > 0 and score % Settings.circles_per_level == 0:
 		level += 1

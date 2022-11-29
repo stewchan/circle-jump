@@ -6,31 +6,35 @@ var enable_music = true
 var enable_ads = false
 var circles_per_level = 5
 var highscore = 0
+	
 
 var color_schemes = {
-	"NEON0": {
-		'background': Color8(0, 0, 0),
-		'player_body': Color8(203, 255, 0),
-		'player_trail': Color8(204, 0, 255),
-		'circle_fill': Color8(255, 0, 110),
-		'circle_static': Color8(0, 255, 102),
-		'circle_limited': Color8(204, 0, 255)
+	"NEON0":
+	{
+		"background": Color8(0, 0, 0),
+		"player_body": Color8(203, 255, 0),
+		"player_trail": Color8(204, 0, 255),
+		"circle_fill": Color8(255, 0, 110),
+		"circle_static": Color8(0, 255, 102),
+		"circle_limited": Color8(204, 0, 255)
 	},
-	"NEON1": {
-		'background': Color8(0, 0, 0),
-		'player_body': Color8(246, 255, 0),
-		'player_trail': Color8(255, 255, 255),
-		'circle_fill': Color8(255, 0, 110),
-		'circle_static': Color8(151, 255, 48),
-		'circle_limited': Color8(127, 0, 255)
+	"NEON1":
+	{
+		"background": Color8(0, 0, 0),
+		"player_body": Color8(246, 255, 0),
+		"player_trail": Color8(255, 255, 255),
+		"circle_fill": Color8(255, 0, 110),
+		"circle_static": Color8(151, 255, 48),
+		"circle_limited": Color8(127, 0, 255)
 	},
-	"NEON2": {
-		'background': Color8(0, 0, 0),
-		'player_body': Color8(255, 0, 187),
-		'player_trail': Color8(255, 148, 0),
-		'circle_fill': Color8(255, 148, 0),
-		'circle_static': Color8(170, 255, 0),
-		'circle_limited': Color8(204, 0, 255)
+	"NEON2":
+	{
+		"background": Color8(0, 0, 0),
+		"player_body": Color8(255, 0, 187),
+		"player_trail": Color8(255, 148, 0),
+		"circle_fill": Color8(255, 148, 0),
+		"circle_static": Color8(170, 255, 0),
+		"circle_limited": Color8(204, 0, 255)
 	}
 }
 
@@ -40,7 +44,7 @@ var theme = color_schemes[theme_name]
 
 func _ready() -> void:
 	load_settings()
-
+	
 
 func save_settings():
 	var f = File.new()
@@ -66,12 +70,11 @@ func load_settings():
 #func set_enable_ads():
 #	save_settings()
 
-
 # Starting game play settings
 const LEVEL_START = {
 	"mode": "static",
 	"radius": 120,
-	"rotation_speed" : PI * 0.7,
+	"rotation_speed": PI * 0.7,
 	"move_range": 0,
 	"move_speed": 1.0,
 	"jump_speed": 1000,
@@ -82,14 +85,15 @@ var level_settings = LEVEL_START
 
 func intensify(level):
 	var settings = level_settings.duplicate()
-	var total_levels = len(_level_changes)
-	
+	var num_levels = len(_level_changes)
+
 	# Change the color scheme every so often
 	if level % 5 == 0:
 		next_theme()
-	
-	level = clamp(level, 0, total_levels-1)
+
+	level = clamp(level, 0, num_levels - 1)
 	var dict = _level_changes[level]
+	
 	for key in dict:
 		settings[key] = dict[key]
 	level_settings = settings
@@ -100,7 +104,7 @@ func next_theme():
 	num = (num + 1) % len(color_schemes)
 	theme_name = "NEON" + str(num)
 	theme = color_schemes[theme_name]
-			
+
 
 var _level_changes = [
 	LEVEL_START,
@@ -137,6 +141,4 @@ var _level_changes = [
 	{"radius": 5},
 	{"move_range": 200},
 	{"move_speed": 0.2},
-
 ]
-

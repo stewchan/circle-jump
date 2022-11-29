@@ -24,4 +24,6 @@ smoothing_speed = 10.0
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 
+[node name="MusicFade" type="Tween" parent="."]
+
 [connection signal="start_game" from="Screens" to="." method="new_game"]

@@ -47,8 +47,6 @@ func init(_position, _mode = "static", _radius := radius,
 	
 	$Sprite.material = $Sprite.material.duplicate()
 	$SpriteEffect.material = $Sprite.material
-	
-	
 	$CollisionShape2D.shape = $CollisionShape2D.shape.duplicate()
 	$CollisionShape2D.shape.radius = radius
 	var img_size = $Sprite.texture.get_size().x / 2

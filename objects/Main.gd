@@ -5,6 +5,7 @@ var Jumper = preload("res://objects/Jumper.tscn")
 
 var player
 var score := 0 setget set_score
+var new_highscore := false
 var level := 0
 
 
@@ -21,6 +22,7 @@ func new_game():
 	player.connect("captured", self, "_on_Jumper_captured")
 	player.connect("died", self, "_on_Jumper_died")
 	self.score = 0
+	new_highscore = false
 	level = 0
 	Settings.intensify(level)
 	spawn_circle($StartPosition.position)
@@ -28,14 +30,17 @@ func new_game():
 	$HUD.show()
 	$HUD.show_message("Go!")
 	if Settings.enable_music:
+		$Music.volume_db = 0
 		$Music.play()
 
 
 func set_score(value):
 	score = value
-	if score > Settings.highscore:
+	if score > Settings.highscore and !new_highscore:
+		new_highscore = true
 		Settings.highscore = score
 		Settings.save_settings()
+		$HUD.show_message("New Highscore!")
 	$HUD.update_score(score)
 	if score > 0 and score % Settings.circles_per_level == 0:
 		level += 1
@@ -55,7 +60,7 @@ func _on_Jumper_died():
 	$Screens.game_over()
 	$HUD.hide()
 	if Settings.enable_music:
-		$Music.stop()
+		fade_music()
 
 
 func spawn_circle(_position = null) -> void:
@@ -75,5 +80,11 @@ func spawn_circle(_position = null) -> void:
 	c.init(_position, mode, radius, rotation_speed, move_range, move_speed)
 
 
+func fade_music():
+	$MusicFade.interpolate_property($Music, "volume_db", 0, -50, 1.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$MusicFade.start()
+	yield($MusicFade, "tween_all_completed")
+	
+	
 
 		

@@ -1,7 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/fonts/Xolonium-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://ui/HUD.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=7]
+size = 32
+font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -121,8 +125,87 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
+[sub_resource type="Animation" id=8]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Multiplier:custom_fonts/font:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 32 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Multiplier:custom_colors/font_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Multiplier:rect_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "pulse"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Multiplier:custom_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.843137, 0.0784314, 0.0784314, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Multiplier:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
+}
+
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 2 )
+
+[node name="Multiplier" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 63.0
+margin_bottom = 60.0
+rect_pivot_offset = Vector2( 21, 20 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "1x"
+align = 1
+valign = 1
 
 [node name="ScoreBox" type="MarginContainer" parent="."]
 anchor_left = 0.5
@@ -175,8 +258,14 @@ align = 1
 valign = 1
 clip_text = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="MessageAnim" type="AnimationPlayer" parent="."]
 autoplay = "init"
 anims/RESET = SubResource( 4 )
 anims/init = SubResource( 5 )
 anims/show_message = SubResource( 6 )
+
+[node name="MultiplierAnim" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 8 )
+anims/pulse = SubResource( 9 )
+
+[node name="Tween" type="Tween" parent="."]

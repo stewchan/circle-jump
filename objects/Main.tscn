@@ -35,6 +35,7 @@ scale_amount = 2.04
 scale_amount_random = 0.49
 
 [node name="HUD" parent="." instance=ExtResource( 3 )]
+visible = false
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )

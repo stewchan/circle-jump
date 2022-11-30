@@ -4,9 +4,11 @@ var Circle = preload("res://objects/Circle.tscn")
 var Jumper = preload("res://objects/Jumper.tscn")
 
 var player
-var score := 0 setget set_score
-var new_highscore := false
-var level := 0
+var score : int setget set_score
+var multiplier setget set_multiplier
+var new_highscore
+var level
+var captures
 
 
 func _ready() -> void:
@@ -22,11 +24,13 @@ func new_game():
 	player.connect("captured", self, "_on_Jumper_captured")
 	player.connect("died", self, "_on_Jumper_died")
 	self.score = 0
+	self.multiplier = 0
 	new_highscore = false
 	level = 0
+	captures = 0
 	Settings.intensify(level)
 	spawn_circle($StartPosition.position)
-	$HUD.update_score(score)
+	$HUD.visible = true
 	$HUD.show()
 	$HUD.show_message("Go!")
 	if Settings.enable_music:
@@ -34,26 +38,32 @@ func new_game():
 		$Music.play()
 
 
-func set_score(value):
-	score = value
+func set_score(value : int):
+	$HUD.update_score(value)
 	if score > Settings.highscore:
 		if !new_highscore:
 			new_highscore = true
 			$HUD.show_message("New Record!")
 		Settings.highscore = score
 		Settings.save_settings()
-	$HUD.update_score(score)
-	if score > 0 and score % Settings.circles_per_level == 0:
-		level += 1
-		Settings.intensify(level)
-		$HUD.show_message("Level %s" % str(level))
+	
 
+func set_multiplier(value : int):
+	multiplier = value
+	$HUD.update_multiplier(multiplier)
+	
 
 func _on_Jumper_captured(object):
-	self.score += 1
+	captures += 1
+	self.score += 1 * multiplier
+	self.multiplier += 1
 	$Camera2D.position = object.position
 	object.capture(player)
 	call_deferred("spawn_circle")
+	if captures > 0 and captures % Settings.circles_per_level == 0:
+		level += 1
+		Settings.intensify(level)
+		$HUD.show_message("Level %s" % str(level))
 
 
 func _on_Jumper_died():
@@ -71,6 +81,7 @@ func spawn_circle(_position = null) -> void:
 		var y = rand_range(-500, -400)
 		_position = player.target.position + Vector2(x, y)
 	add_child(c)
+	c.connect("full_orbit", self, "set_multiplier", [1])
 	
 	# Spawn circle based on current level
 	var mode = Settings.level_settings["mode"]
